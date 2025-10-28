@@ -1,10 +1,11 @@
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import { caller } from "@/trpc/server";
 
-export default function Home() {
+export default async function Home() {
+  const users = await caller.getUsers()
   return (
 <div className={cn("text-red-500 font-bold")}>
-  Hello World
+  {JSON.stringify(users)}
 </div>
   );
 }
