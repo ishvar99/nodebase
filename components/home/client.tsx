@@ -17,11 +17,19 @@ export const     Client = () => {
            toast.success("Job queued")
         }
     }));
+    const testAi = useMutation(trpc.testAi.mutationOptions({
+        onSuccess: () => {
+            toast.success("AI  Job queued")
+         }
+    }))
     return (
         <div className="min-h-screen min-w-screen flex items-center justify-center flex-col gap-y-6">
             {JSON.stringify(workflows)}
             <Button disabled={create.isPending} onClick={()=> create.mutate()}>
             Create workflow
+            </Button>
+            <Button disabled={create.isPending} onClick={()=> testAi.mutate()}>
+                Test AI
             </Button>
            <LogoutButton/>
         </div>
