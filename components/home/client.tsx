@@ -5,15 +5,16 @@ import { useTRPC } from "@/trpc/client"
 import {useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Button } from "../ui/button";
 import { LogoutButton } from "./logout";
+import { toast } from "sonner";
 
-export const     Client = () => {
+export const     Client = () => {  
     const {data} = authClient.useSession()
     const queryClient = useQueryClient();
     const trpc = useTRPC();
     const {data: workflows} = useSuspenseQuery(trpc.getWorkflows.queryOptions());
     const create = useMutation(trpc.createWorkflow.mutationOptions({
         onSuccess: () => {
-            queryClient.invalidateQueries(trpc.getWorkflows.queryOptions())
+           toast.success("Job queued")
         }
     }));
     return (

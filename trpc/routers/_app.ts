@@ -9,15 +9,8 @@ export const appRouter = createTRPCRouter({
 
     await inngest.send({
       name: "test/hello.world",
-      data: {
-        email: "ishan@mail.com"
-      }
     })
-    return prisma.workflow.create({
-      data: {
-        name: "test-workflow"
-      }
-    })
+    return {success: true, message: 'job queued'}
   })
 });
 // export type definition of API
