@@ -11,7 +11,7 @@ import {
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname,useRouter } from 'next/navigation'
+import { redirect, usePathname,useRouter } from 'next/navigation'
 
 import {
     Sidebar,
@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/sidebar"
 import { authClient } from '@/lib/auth-client'
 import { useHasActiveSubscription} from '@/hooks/subscriptions/use-subscription'
+import polarClient from '@/lib/polar'
 
 const menuItems = [
     {
@@ -50,10 +51,25 @@ const menuItems = [
     }
 ]
 
-export const AppSidebar = () => {
+export const AppSidebar =  () => {
+
     const router = useRouter();
     const pathname = usePathname()
+    const { useSession } = authClient
     const {hasActiveSubscription,isLoading} = useHasActiveSubscription()
+
+
+    async function goToCustomerPortal() {
+        const {
+            data: session,
+        } = useSession()
+        const result = await polarClient.customerSessions.create({
+          externalCustomerId: session?.user.id || ''
+        });
+      
+        router.push(result.customerPortalUrl)
+      }
+
     return (
         <Sidebar collapsible='icon'>
             <SidebarHeader>
@@ -108,7 +124,7 @@ export const AppSidebar = () => {
                                 <SidebarMenuItem>
                                     <SidebarMenuButton tooltip="Billing Portal"
                                     className="gap x-4 h-10 px-4"
-                                    onClick={()=>authClient.customer.portal()}
+                                    onClick={goToCustomerPortal}
                                     >
                                         <CreditCardIcon className='h-4 w-4'/>
                                         <span>Billing Portal</span>
