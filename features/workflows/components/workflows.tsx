@@ -1,6 +1,6 @@
 "use client"
 
-import { EntityContainer, EntityHeader, EntityPagination, EntitySearch } from "@/components/common/entity-components"
+import { EmptyView, EntityContainer, EntityHeader, EntityPagination, EntitySearch, LoadingView } from "@/components/common/entity-components"
 import { useUpgradeModal } from "@/hooks/subscriptions/use-upgrade-modal"
 import { useCreateWorkflow, useSuspenseWorkflows } from "@/hooks/workflows/use-workflows"
 import { useRouter } from "next/navigation"
@@ -9,6 +9,11 @@ import { useEntitySearch } from "@/hooks/use-entity-search"
 
 export const WorkflowsList = () => {
     const workflows = useSuspenseWorkflows()
+    if(workflows.data.items.length === 0 ){
+        return (
+            <WorkflowsEmpty/>
+        )
+    }
     return (
         <div className="flex-1 flex justify-center items-center">
             {JSON.stringify(workflows.data ,null,2)}
@@ -82,5 +87,31 @@ export const WorkflowsPagination = () => {
         page={workflows.data.page} 
         onPageChange={(page) => setParams({...params, page})}
         />
+    )
+}
+
+export const WorkflowsLoading = () => {
+    return <LoadingView message="Loading workflows..."/>
+}
+
+export const WorkflowsError = () => {
+    return <LoadingView message="Error loading workflows..."/>
+}
+
+export const WorkflowsEmpty = () => {
+    const createWorkflow = useCreateWorkflow();
+    const {handleError, modal} = useUpgradeModal();
+    const handleCreate = () => {
+        createWorkflow.mutate(undefined, {
+            onError: (error) => {
+                handleError(error)
+            }
+        })
+    }
+    return (
+        <>
+        {modal}
+        <EmptyView onNew={handleCreate} message="No workflows found. Get started by creating a workflow"/>
+        </>
     )
 }
