@@ -4,6 +4,8 @@ import { EntityContainer, EntityHeader, EntitySearch } from "@/components/common
 import { useUpgradeModal } from "@/hooks/subscriptions/use-upgrade-modal"
 import { useCreateWorkflow, useSuspenseWorkflows } from "@/hooks/workflows/use-workflows"
 import { useRouter } from "next/navigation"
+import { useWorkflowsParams } from "../hooks/use-workflows-params"
+import { useEntitySearch } from "@/hooks/use-entity-search"
 
 export const WorkflowsList = () => {
     const workflows = useSuspenseWorkflows()
@@ -55,10 +57,15 @@ export const WorkflowsContainer = ({children}: {children: React.ReactNode}) => {
 }
 
 export const WorkflowsSearch = () => {
+    const [params, setParams] = useWorkflowsParams();
+    const {searchValue, onSearchChange} = useEntitySearch({
+        params,
+        setParams
+    })
     return (
         <EntitySearch
-        value={""}
-        onChange={()=>{}}
+        value={searchValue}
+        onChange={onSearchChange}
         placeholder="Search worklows"
         />
     )
