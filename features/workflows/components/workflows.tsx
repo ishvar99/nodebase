@@ -2,12 +2,13 @@
 
 import { EmptyView, EntityContainer, EntityHeader, EntityItem, EntityList, EntityPagination, EntitySearch, LoadingView } from "@/components/common/entity-components"
 import { useUpgradeModal } from "@/hooks/subscriptions/use-upgrade-modal"
-import { useCreateWorkflow, useSuspenseWorkflows } from "@/hooks/workflows/use-workflows"
+import { useCreateWorkflow, useRemoveWorkflow, useSuspenseWorkflows } from "@/hooks/workflows/use-workflows"
 import { useRouter } from "next/navigation"
 import { useWorkflowsParams } from "../hooks/use-workflows-params"
 import { useEntitySearch } from "@/hooks/use-entity-search"
 import { Workflow } from "@/lib/generated/prisma/client"
 import { WorkflowIcon } from "lucide-react"
+import { formatDistanceToNow } from "date-fns"
 
 export const WorkflowsList = () => {
     const workflows = useSuspenseWorkflows()
@@ -122,14 +123,18 @@ export const WorkflowsEmpty = () => {
 
 
 export const WorkflowItem = ({data}: {data: Workflow}) => {
+    const removeWorkflow = useRemoveWorkflow()
+    const handleRemove = () => {
+        removeWorkflow.mutate({id: data.id})
+    }
     return <EntityItem
     href={`/workflows/${data.id}`}
     title={data.name}
     subtitle={
         <>
-        Updated TODO{" "}
+        Updated {formatDistanceToNow(data.updatedAt,{addSuffix: true})}{" "}
         &bull; Created{" "}
-        TODO
+        {formatDistanceToNow(data.createdAt,{addSuffix: true})}
         </>
         }
     image={
@@ -137,7 +142,7 @@ export const WorkflowItem = ({data}: {data: Workflow}) => {
         <WorkflowIcon className="size-5 text-muted-foreground"/>
         </div>
     }
-    onRemove={()=>{}}
+    onRemove={handleRemove}
     isRemoving={false}
     />
 }

@@ -6,7 +6,7 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardDescription, CardTitle } from "../ui/card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 type EntityHeaderProps = {
     title: string;
@@ -321,7 +321,7 @@ export const EntityItem = ({
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" onClick={(e)=> e.stopPropagation()}>
-                                    <DropdownMenuItem onClick={handleRemove}>
+                                    <DropdownMenuItem className="cursor-pointer" onClick={handleRemove}>
                                         <TrashIcon/>
                                         Delete
                                     </DropdownMenuItem>
