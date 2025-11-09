@@ -1,25 +1,25 @@
 "use client"
 
-import { EmptyView, EntityContainer, EntityHeader, EntityPagination, EntitySearch, LoadingView } from "@/components/common/entity-components"
+import { EmptyView, EntityContainer, EntityHeader, EntityItem, EntityList, EntityPagination, EntitySearch, LoadingView } from "@/components/common/entity-components"
 import { useUpgradeModal } from "@/hooks/subscriptions/use-upgrade-modal"
 import { useCreateWorkflow, useSuspenseWorkflows } from "@/hooks/workflows/use-workflows"
 import { useRouter } from "next/navigation"
 import { useWorkflowsParams } from "../hooks/use-workflows-params"
 import { useEntitySearch } from "@/hooks/use-entity-search"
+import { Workflow } from "@/lib/generated/prisma/client"
+import { WorkflowIcon } from "lucide-react"
 
 export const WorkflowsList = () => {
     const workflows = useSuspenseWorkflows()
-    if(workflows.data.items.length === 0 ){
-        return (
-            <WorkflowsEmpty/>
-        )
-    }
     return (
-        <div className="flex-1 flex justify-center items-center">
-            {JSON.stringify(workflows.data ,null,2)}
-        </div>
+       <EntityList
+        items={workflows.data.items}
+        getKey={(workflow) => workflow.id}
+        renderItem={(workflow) => <WorkflowItem data={workflow}/>}   
+        emptyView={<WorkflowsEmpty/>}
+       />
     )
-}
+} 
 
 export const WorkflowsHeader = ({disabled}: {disabled?: boolean}) => {
     const createWorkflow = useCreateWorkflow();
@@ -101,10 +101,14 @@ export const WorkflowsError = () => {
 export const WorkflowsEmpty = () => {
     const createWorkflow = useCreateWorkflow();
     const {handleError, modal} = useUpgradeModal();
+    const router = useRouter()
     const handleCreate = () => {
         createWorkflow.mutate(undefined, {
             onError: (error) => {
                 handleError(error)
+            },
+            onSuccess: (data) => {
+                router.push(`/workflows/${data.id}`)
             }
         })
     }
@@ -114,4 +118,26 @@ export const WorkflowsEmpty = () => {
         <EmptyView onNew={handleCreate} message="No workflows found. Get started by creating a workflow"/>
         </>
     )
+}
+
+
+export const WorkflowItem = ({data}: {data: Workflow}) => {
+    return <EntityItem
+    href={`/workflows/${data.id}`}
+    title={data.name}
+    subtitle={
+        <>
+        Updated TODO{" "}
+        &bull; Created{" "}
+        TODO
+        </>
+        }
+    image={
+        <div className="size-8 flex items-center justify-center">
+        <WorkflowIcon className="size-5 text-muted-foreground"/>
+        </div>
+    }
+    onRemove={()=>{}}
+    isRemoving={false}
+    />
 }
