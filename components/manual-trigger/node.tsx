@@ -16,7 +16,7 @@ type ManualTriggerNodeData = {
 type ManualTriggerNodeType = Node<ManualTriggerNodeData>;
 
 export const ManualTriggerNode = memo((props: NodeProps<ManualTriggerNodeType>) => {
-    const nodeData = props.data as ManualTriggerNodeData;
+
     return (
         <>
         <BaseTriggerNode 
