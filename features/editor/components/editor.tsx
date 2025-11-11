@@ -3,9 +3,10 @@
 import { ErrorView, LoadingView } from "@/components/common/entity-components"
 import { nodeTypes } from "@/config/node-types";
 import { useSuspenseWorkflow } from "@/hooks/workflows/use-workflows"
-import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge, Edge, Node, NodeChange, EdgeChange, Connection, Background, Controls, MiniMap } from '@xyflow/react';
+import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge, Edge, Node, NodeChange, EdgeChange, Connection, Background, Controls, MiniMap, Panel } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useCallback, useState } from "react";
+import { AddNodeButton } from "./add-node-button";
 
 
 export const EditorLoading = () => {
@@ -53,6 +54,9 @@ export const Editor = ({workflowId}: {workflowId: string}) => {
             <Background/>
             <Controls/>
             <MiniMap/>
+            <Panel position="top-right">
+                <AddNodeButton/>
+            </Panel>
             </ReactFlow>
       </div>
     )
