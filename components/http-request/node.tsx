@@ -17,13 +17,14 @@ type HttpRequestNodeType = Node<HttpRequestNodeData>;
 export const HttpRequestNode = memo((props: NodeProps<HttpRequestNodeType>) => {
     const nodeData = props.data;
     const description = nodeData?.endpoint ? `${nodeData.method || 'GET'} : ${nodeData.endpoint}` : "Not configured";
-
+    const nodeStatus = "error"
     return (
         <>
         <BaseExecutionNode 
         {...props}
         id={props.id}
         icon={GlobeIcon}
+        status={nodeStatus}
         name="HTTP Request"
         description={description}
         onSettings={() => {}}

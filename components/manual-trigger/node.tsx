@@ -18,7 +18,7 @@ type ManualTriggerNodeType = Node<ManualTriggerNodeData>;
 
 export const ManualTriggerNode = memo((props: NodeProps<ManualTriggerNodeType>) => {
     const [dialogOpen, setDialogOpen] = useState(false)
-    const nodeStatus ="initial"
+    const nodeStatus ="success"
     const handleOpenSettings  = () => setDialogOpen(true)
     return (
         <>
