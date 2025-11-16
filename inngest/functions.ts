@@ -5,58 +5,30 @@ import {createOpenAI}  from "@ai-sdk/openai";
 import {createAnthropic}  from "@ai-sdk/anthropic";
 import { generateText } from 'ai';
 import * as Sentry from "@sentry/nextjs";
-
-const google = createGoogleGenerativeAI()
-const openAI = createOpenAI()
-const anthropic = createAnthropic()
-export const execute = inngest.createFunction(
-  { id: "execute" },
-  { event: "execute/ai" },
+import { NonRetriableError } from "inngest";
+import { topologicalSort } from "./utils";
+ 
+export const executeWorkflow = inngest.createFunction(
+  { id: "execute-workflow" },
+  { event: "workflows/execute.workflow" },
   async ({ event, step }) => { 
-    // Sentry.logger.info('User triggered test log', { log_source: 'sentry_test' })
-            const {steps: geminiSteps} = await step.ai.wrap("genemi-generate-text",
-                generateText, 
-                {
-                    model: google("gemini-2.5-flash"),
-                    prompt: "what is 2 + 2 ?",
-                    experimental_telemetry: {
-                        isEnabled: true,
-                        recordInputs: true,
-                        recordOutputs: true
-                    }
-                }
-            )
-
-            const {steps: openaiSteps} = await step.ai.wrap("openai-generate-text",
-            generateText, 
-            {
-                model: openAI("gpt-3.5-turbo"),
-                prompt: "what is 2 + 2 ?",
-                experimental_telemetry: {
-                    isEnabled: true,
-                    recordInputs: true,
-                    recordOutputs: true
-                }
-            }
-        )
-     
-        const {steps: anthropicSteps} = await step.ai.wrap("anthropic-generate-text",
-        generateText, 
-        {
-            model: anthropic("claude-3-5-haiku-20241022"),
-            prompt: "what is 2 + 2 ?",
-            experimental_telemetry: {
-                isEnabled: true,
-                recordInputs: true,
-                recordOutputs: true
-            }
+  const workflowId = event.data.workflowId;
+  if(!workflowId){
+    throw new NonRetriableError("Workflow ID is missing")
+  }
+  const nodes = await step.run("prepare-workflow", async () => {
+    const workflow = await prisma.workflow.findUniqueOrThrow({
+        where: {
+            id: workflowId
+        },
+        include: {
+            nodes: true,
+            connections: true
         }
-    )
-    return {
-        geminiSteps,
-        openaiSteps,
-        anthropicSteps
-    };
+    })
+    return topologicalSort(workflow.nodes,workflow.connections)
+  })
+  return {nodes};
   },
   
 );
