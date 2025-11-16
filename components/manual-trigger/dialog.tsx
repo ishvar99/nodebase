@@ -23,9 +23,6 @@ export const ManualTriggerDialog = ({open,onOpenChange}: ManualTriggerDialogProp
                         Configure settings for the manual trigger node.
                     </DialogDescription>
                 </DialogHeader>
-                <div className='py-4'>
-                    <p className='text-sm text-muted-foreground'>Configuration settings for the manual node.</p>
-                </div>
             </DialogContent>
         </Dialog>
     )
