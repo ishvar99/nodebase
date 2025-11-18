@@ -6,7 +6,7 @@ import { BaseExecutionNode } from "../react-flow/base-execution-node";
 import { GlobeIcon } from "lucide-react";
 import { HttpRequestDialog, HttpRequestFormValues } from "./dialog";
 import { useNodeStatus } from "@/features/executions/hooks/use-node-status";
-import { httpRequestChannel } from "@/inngest/channels/http-request";
+import { HTTP_REQUEST_CHANNEL_NAME, httpRequestChannel } from "@/inngest/channels/http-request";
 import { fetchHttpRequestRealtimeToken } from "@/features/executions/components/http-request/actions";
 
 type HttpRequestNodeData = {
@@ -22,7 +22,7 @@ export const HttpRequestNode = memo((props: NodeProps<HttpRequestNodeType>) => {
     const [dialogOpen, setDialogOpen] = useState(false)
     const nodeData = props.data;
     const description = nodeData?.endpoint ? `${nodeData.method || 'GET'} : ${nodeData.endpoint}` : "Not configured";
-    const nodeStatus = useNodeStatus({nodeId: props.id, channel: httpRequestChannel().name, topic: "status", refreshToken: fetchHttpRequestRealtimeToken})
+    const nodeStatus = useNodeStatus({nodeId: props.id, channel: HTTP_REQUEST_CHANNEL_NAME, topic: "status", refreshToken: fetchHttpRequestRealtimeToken})
     const handleOpenSettings = () => setDialogOpen(true)
     const {setNodes} = useReactFlow()
 

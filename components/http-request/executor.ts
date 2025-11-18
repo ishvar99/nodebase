@@ -47,6 +47,8 @@ export const HttpRequestExecutor: NodeExecutor<HttpRequestData> = async ({data,n
         )
         throw new NonRetriableError("No method configured")
     }
+
+    try{
     const result = await step.run("http request", async () => {
         const endpoint = Handlebars.compile(data.endpoint)(context);
         const method = data.method
@@ -81,4 +83,12 @@ await publish(
     })
 )
 return result
+    }
+    catch(error){
+        await publish(httpRequestChannel().status({
+            nodeId,
+            status: "error"
+        }))
+        throw error
+    }
 }

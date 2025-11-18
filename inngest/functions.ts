@@ -10,12 +10,14 @@ import { topologicalSort } from "./utils";
 import { getExecutor } from "@/config/executor-regsitry";
 import { NodeType } from "@/lib/generated/prisma/enums";
 import { httpRequestChannel } from "./channels/http-request";
+import { manualTriggerChannel } from "./channels/manual-trigger";
  
 export const executeWorkflow = inngest.createFunction(
-  { id: "execute-workflow" },
+  { id: "execute-workflow",retries: 0 },
   { event: "workflows/execute.workflow", 
     channels: [
-      httpRequestChannel()
+      httpRequestChannel(),
+      manualTriggerChannel()
     ]
   },
   async ({ event, step, publish}) => { 

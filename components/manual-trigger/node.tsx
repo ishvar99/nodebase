@@ -6,6 +6,9 @@ import { BaseExecutionNode } from "../react-flow/base-execution-node";
 import { GlobeIcon, MousePointerIcon } from "lucide-react";
 import { BaseTriggerNode } from "../react-flow/base-trigger-node";
 import { ManualTriggerDialog } from "./dialog";
+import { useNodeStatus } from "@/features/executions/hooks/use-node-status";
+import { MANUAL_TRIGGER_CHANNEL_NAME } from "@/inngest/channels/manual-trigger";
+import { fetchManualTriggerRealtimeToken } from "@/features/executions/components/manual-trigger/actions";
 
 type ManualTriggerNodeData = {
     endpoint?: string;
@@ -18,7 +21,7 @@ type ManualTriggerNodeType = Node<ManualTriggerNodeData>;
 
 export const ManualTriggerNode = memo((props: NodeProps<ManualTriggerNodeType>) => {
     const [dialogOpen, setDialogOpen] = useState(false)
-    const nodeStatus ="initial"
+    const nodeStatus = useNodeStatus({nodeId: props.id, channel: MANUAL_TRIGGER_CHANNEL_NAME, topic: "status", refreshToken: fetchManualTriggerRealtimeToken})
     const handleOpenSettings  = () => setDialogOpen(true)
     return (
         <>
