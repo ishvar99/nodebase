@@ -1,3 +1,4 @@
+import { GoogleFormTriggerNode } from "@/components/google-form-trigger/node";
 import { HttpRequestNode } from "@/components/http-request/node";
 import { ManualTriggerNode } from "@/components/manual-trigger/node";
 import { initialNode } from "@/components/react-flow/initial-node";
@@ -8,6 +9,7 @@ export const nodeTypes = {
     [NodeType.INITIAL]: initialNode,
     [NodeType.HTTP_REQUEST]: HttpRequestNode,
     [NodeType.MANUAL_TRIGGER]: ManualTriggerNode, 
+    [NodeType.GOOGLE_FORM_TRIGGER]: GoogleFormTriggerNode
 } as NodeTypes
 
 export type RegisteredNodeType = keyof typeof nodeTypes
