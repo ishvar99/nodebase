@@ -7,6 +7,7 @@ import { NodeType } from "@/lib/generated/prisma/enums";
 import { Connection } from "@/lib/generated/prisma/client";
 import { Edge, Node} from "@xyflow/react";
 import { inngest } from "@/inngest/client";
+import { sendWorkflowExecution } from "@/inngest/utils";
 
 export const workflowsRouter = createTRPCRouter({
 
@@ -16,9 +17,8 @@ export const workflowsRouter = createTRPCRouter({
             id: input.id,
             userId: ctx.auth.user.id
         }})
-        await inngest.send({
-            name: "workflows/execute.workflow",
-            data: {workflowId: workflow.id}
+        await sendWorkflowExecution({
+            workflowId: workflow.id
         })
         return workflow
     }),

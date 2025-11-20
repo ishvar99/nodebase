@@ -11,13 +11,15 @@ import { getExecutor } from "@/config/executor-regsitry";
 import { NodeType } from "@/lib/generated/prisma/enums";
 import { httpRequestChannel } from "./channels/http-request";
 import { manualTriggerChannel } from "./channels/manual-trigger";
+import { googleFormTriggerChannel } from "./channels/google-form-trigger";
  
 export const executeWorkflow = inngest.createFunction(
   { id: "execute-workflow",retries: 0 },
   { event: "workflows/execute.workflow", 
     channels: [
       httpRequestChannel(),
-      manualTriggerChannel()
+      manualTriggerChannel(),
+      googleFormTriggerChannel()
     ]
   },
   async ({ event, step, publish}) => { 

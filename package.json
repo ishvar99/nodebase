@@ -9,6 +9,7 @@
     "lint": "eslint",
     "format": "biome format --write",
     "inngest:dev": "sudo npx inngest-cli dev",
+    "ngrok:dev": "dotenv -- ngrok http --url=$NGROK_URL 3000",
     "dev:all": "mprocs"
   },
   "dependencies": {
@@ -92,6 +93,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/toposort": "^2.0.7",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.0",
     "prisma": "^6.18.0",
