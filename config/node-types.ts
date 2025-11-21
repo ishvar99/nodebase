@@ -2,6 +2,7 @@ import { GoogleFormTriggerNode } from "@/components/google-form-trigger/node";
 import { HttpRequestNode } from "@/components/http-request/node";
 import { ManualTriggerNode } from "@/components/manual-trigger/node";
 import { initialNode } from "@/components/react-flow/initial-node";
+import { StripeTriggerNode } from "@/components/stripe-trigger/node";
 import { NodeType } from "@/lib/generated/prisma/enums";
 import { NodeTypes } from "@xyflow/react";
 
@@ -9,7 +10,8 @@ export const nodeTypes = {
     [NodeType.INITIAL]: initialNode,
     [NodeType.HTTP_REQUEST]: HttpRequestNode,
     [NodeType.MANUAL_TRIGGER]: ManualTriggerNode, 
-    [NodeType.GOOGLE_FORM_TRIGGER]: GoogleFormTriggerNode
+    [NodeType.GOOGLE_FORM_TRIGGER]: GoogleFormTriggerNode,
+    [NodeType.STRIPE_TRIGGER]: StripeTriggerNode
 } as NodeTypes
 
 export type RegisteredNodeType = keyof typeof nodeTypes

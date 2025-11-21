@@ -19,7 +19,7 @@ interface GoogleFormTriggerDialogProps {
     onOpenChange: (open: boolean) => void;
 }
 
-export const GoogleFormTriggerForm = ({open,onOpenChange}: GoogleFormTriggerDialogProps) => {
+export const GoogleFormTrigger = ({open,onOpenChange}: GoogleFormTriggerDialogProps) => {
     const params = useParams()
     const workflowId = params.workflowId as string;
 

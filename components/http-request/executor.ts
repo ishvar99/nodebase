@@ -7,10 +7,10 @@ import { httpRequestChannel } from "@/inngest/channels/http-request";
 Handlebars.registerHelper("json",(context) => new Handlebars.SafeString(JSON.stringify(context,null,2)))
 
 type HttpRequestData = {
-    endpoint: string;
-    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+    endpoint?: string;
+    method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
     body?: string;
-    variableName: string;
+    variableName?: string;
 }
 export const HttpRequestExecutor: NodeExecutor<HttpRequestData> = async ({data,nodeId, step, context, publish}) => {
 
@@ -53,7 +53,7 @@ export const HttpRequestExecutor: NodeExecutor<HttpRequestData> = async ({data,n
         const endpoint = Handlebars.compile(data.endpoint)(context);
         const method = data.method
         const options: KyOptions = {method}
-        if(["POST","PUT","PATCH"].includes(method)){
+        if(["POST","PUT","PATCH"].includes(method!)){
             const resolved = Handlebars.compile(data.body || "{}")(context);
             JSON.parse(resolved)
             options.body = resolved
@@ -73,7 +73,7 @@ export const HttpRequestExecutor: NodeExecutor<HttpRequestData> = async ({data,n
         }
     return {
         ...context,
-        [data.variableName]: responsePayload
+        [data.variableName!]: responsePayload
     }
 })
 await publish(
