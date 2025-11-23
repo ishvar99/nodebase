@@ -56,7 +56,7 @@ export const GeminiExecutor: NodeExecutor<GeminiData> = async ({data,nodeId, ste
         "gemini-generate-text",
         generateText,
         {
-            model: google(data.model || "gemini-1.5-flash"),
+            model: google("gemini-2.0-flash"),
             system: systemPrompt,
             prompt: userPrompt,
             //for sentry

@@ -22,7 +22,7 @@ import { useEffect } from 'react';
 
 
 export const AVAILABLE_MODELS = [
-    "gemini-1.5-flash",
+    "gemini-2.0-flash",
     "gemini-1.5-flash-8b",
     "gemini-1.5-pro",
     "gemini-1.0-pro",
@@ -62,7 +62,7 @@ export const GeminiDialog = ({open,onOpenChange,onSubmit,defaultValues={}}: Gemi
         }
     })
 
-    const watchVariableName = form.watch("variableName") || "myApiCall"
+    const watchVariableName = form.watch("variableName") || "myGemini"
     const handleSubmit = (values: z.infer<typeof formSchema>) =>{
         onSubmit(values);
         onOpenChange(false)
@@ -99,7 +99,7 @@ export const GeminiDialog = ({open,onOpenChange,onSubmit,defaultValues={}}: Gemi
                         <FormItem>
                             <FormLabel>Variable Name</FormLabel>
                                 <FormControl>
-                                    <Input placeholder='myApiCall' {...field}/>
+                                    <Input placeholder='myGemini' {...field}/>
                                    </FormControl>
                             <FormDescription>
                               Use this name to reference the result in other nodes:{" "}
