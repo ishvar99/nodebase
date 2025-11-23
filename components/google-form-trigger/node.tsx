@@ -6,7 +6,7 @@ import { BaseTriggerNode } from "../react-flow/base-trigger-node";
 import { GoogleFormTrigger } from "./dialog";
 import { useNodeStatus } from "@/features/executions/hooks/use-node-status";
 import { GOOGLE_FORM_TRIGGER_CHANNEL_NAME, googleFormTriggerChannel } from "@/inngest/channels/google-form-trigger";
-import { fetchGoogleFormTriggerRealtimeToken } from "@/features/executions/components/google-form-trigger/actions";
+import { fetchGoogleFormTriggerRealtimeToken } from "./actions";
 
 type GoogleFormTriggerNodeData = {
     endpoint?: string;

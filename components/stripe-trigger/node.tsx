@@ -6,7 +6,7 @@ import { BaseTriggerNode } from "../react-flow/base-trigger-node";
 import { StripeDialog } from "./dialog";
 import { useNodeStatus } from "@/features/executions/hooks/use-node-status";
 import { STRIPE_TRIGGER_CHANNEL_NAME } from "@/inngest/channels/stripe-trigger";
-import { fetchStripeTriggerRealtimeToken } from "@/features/executions/components/stripe-trigger/actions";
+import { fetchStripeTriggerRealtimeToken } from "./actions";
 
  
 export const StripeTriggerNode = memo((props: NodeProps<Node>) => {

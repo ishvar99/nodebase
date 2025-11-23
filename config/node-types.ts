@@ -1,3 +1,4 @@
+import { GeminiNode } from "@/components/gemini/node";
 import { GoogleFormTriggerNode } from "@/components/google-form-trigger/node";
 import { HttpRequestNode } from "@/components/http-request/node";
 import { ManualTriggerNode } from "@/components/manual-trigger/node";
@@ -11,7 +12,8 @@ export const nodeTypes = {
     [NodeType.HTTP_REQUEST]: HttpRequestNode,
     [NodeType.MANUAL_TRIGGER]: ManualTriggerNode, 
     [NodeType.GOOGLE_FORM_TRIGGER]: GoogleFormTriggerNode,
-    [NodeType.STRIPE_TRIGGER]: StripeTriggerNode
+    [NodeType.STRIPE_TRIGGER]: StripeTriggerNode,
+    [NodeType.GEMINI]: GeminiNode
 } as NodeTypes
 
 export type RegisteredNodeType = keyof typeof nodeTypes

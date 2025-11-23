@@ -8,7 +8,7 @@ import { BaseTriggerNode } from "../react-flow/base-trigger-node";
 import { ManualTriggerDialog } from "./dialog";
 import { useNodeStatus } from "@/features/executions/hooks/use-node-status";
 import { MANUAL_TRIGGER_CHANNEL_NAME } from "@/inngest/channels/manual-trigger";
-import { fetchManualTriggerRealtimeToken } from "@/features/executions/components/manual-trigger/actions";
+import { fetchManualTriggerRealtimeToken } from "./actions";
 
 type ManualTriggerNodeData = {
     endpoint?: string;
